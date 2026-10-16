@@ -1,7 +1,7 @@
 {
   "market": "tampa-bay",
   "schema_version": "1.0.0",
-  "generated_at": "2026-10-15T17:30:29-04:00",
+  "generated_at": "2026-10-16T14:55:00-04:00",
   "opportunities": [
     {
       "id": "tampa-young-entrepreneurs-business-fair-2026",
@@ -24,7 +24,7 @@
       "official_event_url": "https://www.eventeny.com/events/vendor/?id=50277",
       "source_type": "event_platform",
       "verification_status": "verified_open",
-      "last_verified_at": "2026-10-15T17:30:29-04:00",
+      "last_verified_at": "2026-10-16T14:55:00-04:00",
       "radar_score": 95,
       "recurring": false,
       "public_eligible": true
@@ -39,9 +39,9 @@
       "venue": "Winthrop Town Centre",
       "event_start_date": "2026-10-17",
       "application_status": "open",
-      "booth_fee_min": 85,
-      "booth_fee_max": 600,
-      "fee_notes": "Adult monthly $85; half season $320; full season $600; food trucks $100; youth $40.",
+      "booth_fee_min": 40,
+      "booth_fee_max": 320,
+      "fee_notes": "Monthly vendor $85; half season $320; food trucks $100; youth vendors $40. Full-season standard vendor option is currently closed.",
       "vendor_categories": ["handmade", "art", "plants", "small-batch food", "vintage", "food trucks"],
       "event_types": ["market"],
       "food_allowed": true,
@@ -49,7 +49,7 @@
       "official_event_url": "https://www.winthroppopupmarket.com/",
       "source_type": "organizer",
       "verification_status": "verified_open",
-      "last_verified_at": "2026-10-15T17:30:29-04:00",
+      "last_verified_at": "2026-10-16T14:55:00-04:00",
       "radar_score": 95,
       "recurring": true,
       "public_eligible": true
@@ -74,7 +74,7 @@
       "official_event_url": "https://tarponspringsmerchantassociation.com/tarpon-springs-events-calendar/tarpon-springs-first-friday/",
       "source_type": "organizer",
       "verification_status": "verified_open",
-      "last_verified_at": "2026-10-15T17:30:29-04:00",
+      "last_verified_at": "2026-10-16T14:55:00-04:00",
       "radar_score": 90,
       "recurring": true,
       "public_eligible": true
@@ -98,7 +98,7 @@
       "official_event_url": "https://www.grandcentraldistrict.org/christmas-market/",
       "source_type": "organizer",
       "verification_status": "verified_open",
-      "last_verified_at": "2026-10-15T17:30:29-04:00",
+      "last_verified_at": "2026-10-16T14:55:00-04:00",
       "radar_score": 85,
       "recurring": false,
       "public_eligible": true
@@ -117,7 +117,7 @@
       "application_status": "open",
       "booth_fee_min": 60,
       "booth_fee_max": 1000,
-      "fee_notes": "Kid entrepreneur $60; artist/maker and nonprofit $175; small business $200; food/drink $350; food truck $400; corporate $550; sponsorship $1,000.",
+      "fee_notes": "Kid entrepreneur $60; artist/maker and nonprofit $175; small business $200; food/drink $350; food truck $400; corporate $550; sponsorship $1,000. Family Zone is sold out, but the overall application remains open.",
       "vendor_categories": ["artist/maker", "small business", "food and drink", "food truck", "nonprofit", "specialty sections"],
       "event_types": ["market"],
       "food_allowed": true,
@@ -125,7 +125,7 @@
       "official_event_url": "https://www.grandcentraldistrict.org/vendors/",
       "source_type": "event_platform",
       "verification_status": "verified_open",
-      "last_verified_at": "2026-10-15T17:30:29-04:00",
+      "last_verified_at": "2026-10-16T14:55:00-04:00",
       "radar_score": 78,
       "recurring": false,
       "public_eligible": true
