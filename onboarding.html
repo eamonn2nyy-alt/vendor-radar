@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Preview your Vendor Radar preferences so Founding Pro can filter Tampa Bay vendor opportunities around your business." />
+  <title>Set Up Your Radar — Vendor Radar</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <link rel="stylesheet" href="./onboarding.css" />
+</head>
+<body>
+  <header class="nav-wrap">
+    <nav class="nav shell" aria-label="Primary navigation">
+      <a class="brand" href="./index.html"><span class="radar-dot" aria-hidden="true"></span><span>Vendor Radar</span></a>
+      <div class="nav-links"><a href="./index.html#radar">Free Radar</a><a href="./sample-pro.html">Sample Pro</a><a href="./index.html#pricing">Pricing</a></div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="onboarding-hero shell">
+      <div class="eyebrow">Founding Pro · preference preview</div>
+      <h1>Tell Radar what <em>worth your time</em> means.</h1>
+      <p class="hero-copy">Preview the profile Vendor Radar will use to screen opportunities before they reach you. This page stores the preview only in your browser; nothing is submitted or charged.</p>
+    </section>
+
+    <section class="section shell onboarding-layout">
+      <form id="profile-form" class="profile-form">
+        <div class="form-section">
+          <h2>Your business</h2>
+          <label>Email <input id="email" name="email" type="email" placeholder="you@example.com" required /></label>
+          <label>Business name <input id="business_name" name="business_name" type="text" placeholder="Optional" /></label>
+          <label>What do you sell? <textarea id="categories" name="categories" rows="3" placeholder="e.g. handmade candles, home fragrance, gift goods" required></textarea><small>Separate categories with commas.</small></label>
+        </div>
+
+        <div class="form-section">
+          <h2>Your boundaries</h2>
+          <div class="field-grid">
+            <label>Base city <input id="base_city" name="base_city" type="text" placeholder="Clearwater" required /></label>
+            <label>Travel radius (miles) <input id="travel_radius" name="travel_radius" type="number" min="0" max="500" value="50" required /></label>
+          </div>
+          <label>Maximum booth fee <div class="money-input"><span>$</span><input id="max_booth_fee" name="max_booth_fee" type="number" min="0" step="1" placeholder="150" /></div></label>
+        </div>
+
+        <div class="form-section">
+          <h2>What do you prefer?</h2>
+          <fieldset>
+            <legend>Preferred days</legend>
+            <div class="check-grid">
+              <label><input type="checkbox" name="days" value="monday" /> Monday</label>
+              <label><input type="checkbox" name="days" value="tuesday" /> Tuesday</label>
+              <label><input type="checkbox" name="days" value="wednesday" /> Wednesday</label>
+              <label><input type="checkbox" name="days" value="thursday" /> Thursday</label>
+              <label><input type="checkbox" name="days" value="friday" /> Friday</label>
+              <label><input type="checkbox" name="days" value="saturday" /> Saturday</label>
+              <label><input type="checkbox" name="days" value="sunday" /> Sunday</label>
+            </div>
+          </fieldset>
+          <label>Preferred event types <input id="preferred_event_types" type="text" placeholder="markets, holiday markets, maker markets" /><small>Comma-separated; optional.</small></label>
+          <label>Anything you never want? <input id="excluded_event_types" type="text" placeholder="e.g. weekday events, flea markets" /><small>Comma-separated; optional.</small></label>
+          <label>Hard constraints / notes <textarea id="notes" rows="3" placeholder="Anything Radar should know before recommending an event."></textarea></label>
+        </div>
+
+        <button class="button full" type="submit">Preview my Radar profile</button>
+        <p class="form-note">Preview only. Your information stays in this browser until the live customer backend is enabled.</p>
+      </form>
+
+      <aside class="profile-preview-wrap">
+        <div class="profile-preview sticky-card">
+          <div class="eyebrow">Your screening profile</div>
+          <h2 id="preview-title">Not configured yet</h2>
+          <div id="profile-preview" class="preview-body"><p class="muted">Complete the form to see the exact preference object Vendor Radar will use to personalize Pro.</p></div>
+          <div id="preview-status" class="status-chip subtle-chip">Local preview only</div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <footer class="footer shell"><div><strong>Vendor Radar</strong><p class="muted">We search everywhere. You just pick where to sell.</p></div><p class="muted">Tampa Bay launch market · v1</p></footer>
+  <script src="./onboarding.js" defer></script>
+</body>
+</html>
