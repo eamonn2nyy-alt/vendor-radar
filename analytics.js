@@ -1,5 +1,5 @@
 (() => {
-  const META_PIXEL_ID = '';
+  const META_PIXEL_ID = '1469756301700626';
   const debug = new URLSearchParams(window.location.search).get('debug_analytics') === '1';
 
   const pageType = (() => {
