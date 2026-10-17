@@ -16,7 +16,8 @@ function safeDate(value) {
   return date ? dateFmt.format(date) : 'Not listed';
 }
 
-function money(min, max) {
+function money(min, max, display) {
+  if (display) return display;
   if (min == null && max == null) return 'Fee not listed';
   if (min != null && max != null && min !== max) return `$${min}–$${max}`;
   return `$${min ?? max}`;
@@ -60,7 +61,7 @@ function renderOpportunity(item) {
   const deadlineChip = deadline.hot ? `<span class="chip hot">${escapeHtml(deadline.text)}</span>` : '';
 
   return `
-    <article class="opportunity-card">
+    <article class="opportunity-card" data-opportunity-id="${escapeHtml(item.id || '')}">
       <div class="card-top">
         <div class="date-badge"><span>${escapeHtml(month)}</span><strong>${escapeHtml(day)}</strong></div>
         <span class="verified-badge">✓ Verified</span>
@@ -70,7 +71,7 @@ function renderOpportunity(item) {
 
       <div class="card-chips">
         <span class="chip">📍 ${escapeHtml(item.city || 'Tampa Bay')}</span>
-        <span class="chip">💵 ${escapeHtml(money(item.booth_fee_min, item.booth_fee_max))}</span>
+        <span class="chip">💵 ${escapeHtml(money(item.booth_fee_min, item.booth_fee_max, item.fee_display))}</span>
         ${recurring}
         ${deadlineChip}
       </div>
