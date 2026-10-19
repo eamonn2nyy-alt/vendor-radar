@@ -51,6 +51,11 @@ function deadlineCopy(item) {
   return { text: `Deadline ${safeDate(item.application_deadline)}`, hot: false };
 }
 
+function nextActionTime(item) {
+  const actionDate = parseLocalDate(item.application_deadline || item.event_start_date);
+  return actionDate ? actionDate.getTime() : Number.MAX_SAFE_INTEGER;
+}
+
 function renderOpportunity(item) {
   const eventDate = parseLocalDate(item.event_start_date);
   const month = eventDate ? monthFmt.format(eventDate).toUpperCase() : 'OPEN';
@@ -89,7 +94,10 @@ async function loadRadar() {
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
     const opportunities = Array.isArray(data.opportunities)
-      ? data.opportunities.filter(item => item.public_eligible !== false).slice(0, 5)
+      ? data.opportunities
+          .filter(item => item.public_eligible !== false && item.application_status !== 'closed')
+          .sort((a, b) => nextActionTime(a) - nextActionTime(b))
+          .slice(0, 10)
       : [];
 
     if (heroCount) heroCount.textContent = opportunities.length || '—';
