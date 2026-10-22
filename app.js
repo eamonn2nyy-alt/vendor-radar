@@ -1,9 +1,14 @@
 const grid = document.getElementById('opportunity-grid');
 const updated = document.getElementById('last-updated');
 const heroCount = document.getElementById('hero-count');
+const resultsSummary = document.getElementById('results-summary');
+const filterButtons = [...document.querySelectorAll('[data-radar-filter]')];
 
 const dateFmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 const monthFmt = new Intl.DateTimeFormat('en-US', { month: 'short' });
+
+let allOpportunities = [];
+let activeFilter = 'all';
 
 function parseLocalDate(value) {
   if (!value) return null;
@@ -41,7 +46,11 @@ function daysUntil(value) {
 }
 
 function deadlineCopy(item) {
-  if (!item.application_deadline) return { text: 'Open · deadline not listed', hot: false };
+  if (!item.application_deadline) {
+    return item.recurring
+      ? { text: 'Applications open · recurring', hot: false }
+      : { text: 'Open · deadline not listed', hot: false };
+  }
   const days = daysUntil(item.application_deadline);
   if (days == null) return { text: `Deadline ${safeDate(item.application_deadline)}`, hot: false };
   if (days < 0) return { text: 'Deadline passed — recheck source', hot: true };
@@ -54,6 +63,16 @@ function deadlineCopy(item) {
 function nextActionTime(item) {
   const actionDate = parseLocalDate(item.application_deadline || item.event_start_date);
   return actionDate ? actionDate.getTime() : Number.MAX_SAFE_INTEGER;
+}
+
+function categoryLabel(item) {
+  const labels = {
+    markets: 'Market',
+    festivals: 'Festival',
+    'business-expos': 'Business / Expo',
+    specialty: 'Specialty'
+  };
+  return labels[item.browse_category] || 'Opportunity';
 }
 
 function renderOpportunity(item) {
@@ -72,6 +91,7 @@ function renderOpportunity(item) {
         <span class="verified-badge">✓ Verified</span>
       </div>
 
+      <div class="opportunity-kind">${escapeHtml(categoryLabel(item))}</div>
       <h3>${escapeHtml(item.event_name)}</h3>
 
       <div class="card-chips">
@@ -83,32 +103,65 @@ function renderOpportunity(item) {
 
       <div class="deadline-line"><strong>${escapeHtml(deadline.text)}</strong></div>
       <div class="card-spacer"></div>
-      ${link ? `<a class="source-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer"><span>View official listing</span><span>→</span></a>` : ''}
+      ${link ? `<a class="source-link" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer"><span>View official application</span><span>→</span></a>` : ''}
     </article>
   `;
 }
+
+function filteredOpportunities() {
+  if (activeFilter === 'all') return allOpportunities;
+  return allOpportunities.filter(item => item.browse_category === activeFilter);
+}
+
+function renderRadar() {
+  const visible = filteredOpportunities();
+  if (resultsSummary) {
+    resultsSummary.textContent = `${visible.length} verified ${visible.length === 1 ? 'opportunity' : 'opportunities'}`;
+  }
+
+  if (!visible.length) {
+    grid.innerHTML = '<article class="empty-state"><div class="empty-icon">◎</div><h3>No current matches in this category.</h3><p>Try another filter — Radar keeps scanning.</p></article>';
+    return;
+  }
+
+  grid.innerHTML = visible.map(renderOpportunity).join('');
+}
+
+filterButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    activeFilter = button.dataset.radarFilter || 'all';
+    filterButtons.forEach(item => item.classList.toggle('active', item === button));
+    renderRadar();
+  });
+});
 
 async function loadRadar() {
   try {
     const response = await fetch('./public-data/opportunities.json', { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const data = await response.json();
-    const opportunities = Array.isArray(data.opportunities)
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    allOpportunities = Array.isArray(data.opportunities)
       ? data.opportunities
-          .filter(item => item.public_eligible !== false && item.application_status !== 'closed')
+          .filter(item => {
+            if (item.public_eligible === false || item.application_status === 'closed') return false;
+            if (!item.application_deadline) return true;
+            const deadline = parseLocalDate(item.application_deadline);
+            return !deadline || deadline >= today;
+          })
           .sort((a, b) => nextActionTime(a) - nextActionTime(b))
-          .slice(0, 10)
       : [];
 
-    if (heroCount) heroCount.textContent = opportunities.length || '—';
+    if (heroCount) heroCount.textContent = allOpportunities.length || '—';
 
     if (data.generated_at) {
       const dt = new Date(data.generated_at);
-      if (!Number.isNaN(dt.getTime())) updated.textContent = `Updated ${dateFmt.format(dt)}`;
+      if (!Number.isNaN(dt.getTime())) updated.textContent = `Verified ${dateFmt.format(dt)}`;
     }
 
-    if (!opportunities.length) return;
-    grid.innerHTML = opportunities.map(renderOpportunity).join('');
+    renderRadar();
   } catch (error) {
     console.error('Vendor Radar feed could not be loaded:', error);
     updated.textContent = 'Feed temporarily unavailable';
