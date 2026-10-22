@@ -85,6 +85,12 @@
   }
 
   document.addEventListener('click', event => {
+    const filterButton = event.target.closest('[data-radar-filter]');
+    if (filterButton) {
+      track('RadarFilterClick', { filter: filterButton.dataset.radarFilter || 'unknown' });
+      return;
+    }
+
     const link = event.target.closest('a');
     if (!link) return;
 
@@ -106,6 +112,11 @@
 
     if (href.includes('sample-pro.html')) {
       track('ProSampleClick');
+      return;
+    }
+
+    if (href === '#pro') {
+      track('ProInterestClick');
       return;
     }
 
