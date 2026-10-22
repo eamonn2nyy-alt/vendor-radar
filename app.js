@@ -46,12 +46,15 @@ function daysUntil(value) {
 }
 
 function deadlineCopy(item) {
+  const days = item.application_deadline ? daysUntil(item.application_deadline) : null;
+  if (item.deadline_display) {
+    return { text: item.deadline_display, hot: days != null && days >= 0 && days <= 7 };
+  }
   if (!item.application_deadline) {
     return item.recurring
       ? { text: 'Applications open · recurring', hot: false }
       : { text: 'Open · deadline not listed', hot: false };
   }
-  const days = daysUntil(item.application_deadline);
   if (days == null) return { text: `Deadline ${safeDate(item.application_deadline)}`, hot: false };
   if (days < 0) return { text: 'Deadline passed — recheck source', hot: true };
   if (days === 0) return { text: 'Closes today', hot: true };
