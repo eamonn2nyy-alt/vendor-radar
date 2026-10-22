@@ -6,6 +6,7 @@ const filterButtons = [...document.querySelectorAll('[data-radar-filter]')];
 
 const dateFmt = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 const monthFmt = new Intl.DateTimeFormat('en-US', { month: 'short' });
+const PUBLIC_FEEDS = ['./public-data/opportunities.json', './public-data/recurring-opportunities.json'];
 
 let allOpportunities = [];
 let activeFilter = 'all';
@@ -138,35 +139,53 @@ filterButtons.forEach(button => {
   });
 });
 
+async function loadFeed(path) {
+  try {
+    const response = await fetch(path, { cache: 'no-store' });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    return await response.json();
+  } catch (error) {
+    console.warn(`Vendor Radar feed ${path} could not be loaded:`, error);
+    return null;
+  }
+}
+
 async function loadRadar() {
   try {
-    const response = await fetch('./public-data/opportunities.json', { cache: 'no-store' });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const data = await response.json();
+    const feeds = (await Promise.all(PUBLIC_FEEDS.map(loadFeed))).filter(Boolean);
+    if (!feeds.length) throw new Error('No public feeds available');
+
+    const mergedById = new Map();
+    feeds.forEach(feed => {
+      (Array.isArray(feed.opportunities) ? feed.opportunities : []).forEach(item => {
+        if (item?.id) mergedById.set(item.id, item);
+      });
+    });
+
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
-    allOpportunities = Array.isArray(data.opportunities)
-      ? data.opportunities
-          .filter(item => {
-            if (item.public_eligible === false || item.application_status === 'closed') return false;
-            if (!item.application_deadline) return true;
-            const deadline = parseLocalDate(item.application_deadline);
-            return !deadline || deadline >= today;
-          })
-          .sort((a, b) => nextActionTime(a) - nextActionTime(b))
-      : [];
+    allOpportunities = [...mergedById.values()]
+      .filter(item => {
+        if (item.public_eligible === false || item.application_status === 'closed') return false;
+        if (!item.application_deadline) return true;
+        const deadline = parseLocalDate(item.application_deadline);
+        return !deadline || deadline >= today;
+      })
+      .sort((a, b) => nextActionTime(a) - nextActionTime(b));
 
     if (heroCount) heroCount.textContent = allOpportunities.length || '—';
 
-    if (data.generated_at) {
-      const dt = new Date(data.generated_at);
-      if (!Number.isNaN(dt.getTime())) updated.textContent = `Verified ${dateFmt.format(dt)}`;
-    }
+    const newestGeneratedAt = feeds
+      .map(feed => new Date(feed.generated_at || 0))
+      .filter(dt => !Number.isNaN(dt.getTime()))
+      .sort((a, b) => b - a)[0];
+
+    if (newestGeneratedAt) updated.textContent = `Verified ${dateFmt.format(newestGeneratedAt)}`;
 
     renderRadar();
   } catch (error) {
-    console.error('Vendor Radar feed could not be loaded:', error);
+    console.error('Vendor Radar feeds could not be loaded:', error);
     updated.textContent = 'Feed temporarily unavailable';
   }
 }
