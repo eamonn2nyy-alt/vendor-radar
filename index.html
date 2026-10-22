@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Find verified Tampa Bay vendor opportunities, deadlines, fees, and official application links with Vendor Radar." />
+  <meta name="description" content="Browse verified Tampa Bay vendor opportunities, deadlines, fees, and official application links. Vendor Radar Pro adds personalized ranking and monitoring." />
   <meta name="theme-color" content="#08131f" />
-  <title>Vendor Radar — Find Your Next Place to Sell</title>
+  <title>Vendor Radar — Verified Tampa Bay Vendor Opportunities</title>
   <link rel="stylesheet" href="./styles.css" />
 </head>
 <body>
@@ -22,12 +22,12 @@
   <main id="top">
     <section class="hero shell">
       <div class="hero-copy-wrap">
-        <div class="live-pill"><span class="live-dot"></span>Tampa Bay Radar</div>
-        <h1>Find your next <em>place to sell.</em></h1>
-        <p class="hero-copy">Vendor events. Fees. Deadlines. Apply links. <strong>Verified.</strong></p>
+        <div class="live-pill"><span class="live-dot"></span>Tampa Bay opportunity radar</div>
+        <h1>Find where you can <em>sell next.</em></h1>
+        <p class="hero-copy">Verified vendor opportunities across markets, festivals, expos, and specialty events. <strong>Fees. Deadlines. Official apply links.</strong></p>
         <div class="hero-actions">
-          <a class="button" href="#radar">Show me what’s open ↓</a>
-          <a class="text-link" href="./sample-pro.html">See Pro sample →</a>
+          <a class="button" href="#radar">Browse open opportunities ↓</a>
+          <a class="text-link" href="./sample-pro.html">See what Pro adds →</a>
         </div>
       </div>
 
@@ -42,8 +42,8 @@
           <span class="map-pin pin-c">●</span>
           <div class="radar-center"></div>
         </div>
-        <div class="visual-card visual-card-top"><strong id="hero-count">5</strong><span>free picks</span></div>
-        <div class="visual-card visual-card-bottom"><strong>✓</strong><span>source checked</span></div>
+        <div class="visual-card visual-card-top"><strong id="hero-count">—</strong><span>verified openings</span></div>
+        <div class="visual-card visual-card-bottom"><strong>✓</strong><span>official sources</span></div>
       </div>
     </section>
 
@@ -52,9 +52,21 @@
         <div class="section-heading compact-heading">
           <div>
             <div class="eyebrow">FREE RADAR</div>
-            <h2>Open now.</h2>
+            <h2>Browse what’s open.</h2>
+            <p class="section-copy">Free Radar gives you the verified opportunity, fee, deadline, city, and official application. No fake scarcity and no hiding the basic listing behind a paywall.</p>
           </div>
           <p id="last-updated" class="updated-label">Loading…</p>
+        </div>
+
+        <div class="radar-toolbar">
+          <div class="filter-row" aria-label="Opportunity filters">
+            <button class="filter-button active" type="button" data-radar-filter="all">All</button>
+            <button class="filter-button" type="button" data-radar-filter="markets">Markets</button>
+            <button class="filter-button" type="button" data-radar-filter="festivals">Festivals</button>
+            <button class="filter-button" type="button" data-radar-filter="business-expos">Business & Expos</button>
+            <button class="filter-button" type="button" data-radar-filter="specialty">Specialty</button>
+          </div>
+          <strong id="results-summary" class="results-summary">Loading opportunities…</strong>
         </div>
 
         <div id="opportunity-grid" class="opportunity-grid" aria-live="polite">
@@ -63,11 +75,42 @@
 
         <div class="return-strip">
           <div>
-            <strong>Don’t search from scratch next time.</strong>
-            <span>Bookmark the free Radar and come back for the current public picks.</span>
+            <strong>Free helps you discover. Pro helps you decide.</strong>
+            <span>Come back anytime for current public openings — or let Pro rank and monitor them around your business.</span>
           </div>
-          <a href="#top" class="return-arrow" aria-label="Back to top">↑</a>
+          <a href="#pro" class="return-arrow" aria-label="See Pro">↓</a>
         </div>
+      </div>
+    </section>
+
+    <section class="boundary-section shell" aria-label="Free and Pro comparison">
+      <div class="boundary-heading">
+        <div class="eyebrow">THE VALUE LINE</div>
+        <h2>More listings are useful. <em>Less work is worth paying for.</em></h2>
+        <p>We want Free Radar to be good enough to bookmark. Founding Pro is for vendors who want the Radar to think in terms of their business instead of making them sort the whole market themselves.</p>
+      </div>
+      <div class="boundary-grid">
+        <article class="boundary-card">
+          <span class="plan-kicker">FREE</span>
+          <h3>Discover opportunities</h3>
+          <ul>
+            <li>Verified open vendor opportunities</li>
+            <li>Fees, deadlines, city and official links</li>
+            <li>Market / festival / expo browsing</li>
+            <li>Expired listings removed from the public feed</li>
+          </ul>
+        </article>
+        <article class="boundary-card pro-boundary">
+          <span class="plan-kicker">FOUNDING PRO · $9/MO</span>
+          <h3>Know what to do next</h3>
+          <ul>
+            <li>Matches ranked for your actual business</li>
+            <li>Closing-soon and newly-opened opportunities surfaced</li>
+            <li>Recurring markets and waitlists monitored for changes</li>
+            <li>Bad fits filtered out with the reason shown</li>
+            <li>A shorter “apply now” list instead of another directory</li>
+          </ul>
+        </article>
       </div>
     </section>
 
@@ -75,27 +118,29 @@
       <div class="shell pro-card">
         <div class="pro-copy">
           <div class="eyebrow light">FOUNDING PRO</div>
-          <h2>Want Radar to watch <em>for you?</em></h2>
+          <h2>Want Radar to make the list <em>yours?</em></h2>
+          <p class="pro-description">Tell us what you sell, where you’ll travel, your booth budget, and your constraints. Pro turns the full opportunity universe into a monitored action list.</p>
           <div class="feature-chips">
-            <span>🎯 Personalized</span>
-            <span>⏰ Closing soon</span>
-            <span>👀 Recurring watch</span>
+            <span>🎯 Fit-ranked</span>
+            <span>⏰ Deadline-aware</span>
+            <span>✨ New matches surfaced</span>
+            <span>👀 Recurring + waitlist watch</span>
           </div>
         </div>
         <div class="pro-price">
           <div><strong>$9</strong><span>/month</span></div>
           <small>Founding rate · first 20 members</small>
           <a class="button button-light full" href="https://buy.stripe.com/fZufZjca08mD1JWfzccwg00">Start Founding Pro</a>
-          <a class="pro-link" href="./sample-pro.html">See exactly what Pro looks like →</a>
+          <a class="pro-link" href="./sample-pro.html">See the personalized sample →</a>
         </div>
       </div>
     </section>
 
     <section class="trust-section shell">
       <div class="trust-item"><span>✓</span><strong>Official links</strong></div>
-      <div class="trust-item"><span>✓</span><strong>Verified status</strong></div>
-      <div class="trust-item"><span>✓</span><strong>Deadline aware</strong></div>
-      <div class="trust-item"><span>✓</span><strong>No giant directory</strong></div>
+      <div class="trust-item"><span>✓</span><strong>Expired removed</strong></div>
+      <div class="trust-item"><span>✓</span><strong>Unknowns labeled</strong></div>
+      <div class="trust-item"><span>✓</span><strong>Pro stays personalized</strong></div>
     </section>
   </main>
 
