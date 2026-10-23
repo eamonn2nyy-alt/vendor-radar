@@ -1,7 +1,7 @@
 {
   "market": "tampa-bay",
   "schema_version": "1.1.0",
-  "generated_at": "2026-10-22T19:20:00-04:00",
+  "generated_at": "2026-10-23T15:21:00-04:00",
   "opportunities": [
     {
       "id": "rb-game-night-black-vendor-marketplace-nov-2026",
@@ -54,33 +54,6 @@
       "verification_status": "verified_open",
       "last_verified_at": "2026-10-22T19:20:00-04:00",
       "recurring": true,
-      "public_eligible": true
-    },
-    {
-      "id": "par-bar-5th-anniversary-2026",
-      "event_name": "Par Bar 5th Anniversary Vendor Market",
-      "organizer": "Grand Central District Association",
-      "market": "tampa-bay",
-      "county": "Pinellas",
-      "city": "St. Petersburg",
-      "venue": "Par Bar / 23rd St N",
-      "event_start_date": "2026-11-07",
-      "event_end_date": "2026-11-07",
-      "application_deadline": "2026-11-07",
-      "application_status": "open",
-      "booth_fee_min": 50,
-      "booth_fee_max": 50,
-      "fee_notes": "$50 non-food vendor space. Vendors provide insurance/certificates; no electricity or tent supplies provided.",
-      "vendor_categories": ["retail", "makers", "art", "family-friendly goods"],
-      "event_types": ["community event", "vendor market"],
-      "browse_category": "markets",
-      "food_allowed": false,
-      "application_url": "https://www.eventeny.com/events/vendor/?id=56221",
-      "official_event_url": "https://www.eventeny.com/events/vendor/?id=56221",
-      "source_type": "event_platform",
-      "verification_status": "verified_open",
-      "last_verified_at": "2026-10-22T19:20:00-04:00",
-      "recurring": false,
       "public_eligible": true
     },
     {
