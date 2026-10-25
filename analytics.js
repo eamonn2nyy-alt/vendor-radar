@@ -72,6 +72,13 @@
     if (debug) console.info('[Vendor Radar analytics]', name, payload);
   }
 
+  function ml008VariantForCard(card) {
+    if (!card) return 'unknown';
+    const deadlineLine = card.querySelector('.deadline-line')?.textContent?.trim() || '';
+    const hasDeadlineSignal = /closes|deadline|applications open|open ·/i.test(deadlineLine);
+    return hasDeadlineSignal ? 'challenger_deadline' : 'control_generic';
+  }
+
   window.VendorRadarAnalytics = {
     track,
     collector: META_PIXEL_ID ? 'meta_pixel' : 'pending',
@@ -82,6 +89,14 @@
 
   if (pageType === 'checkout_success') {
     track('CheckoutSuccessPage');
+  }
+
+  if (pageType === 'free_radar') {
+    track('ML008QualifiedExposure', {
+      experiment_id: 'ML-008',
+      contract_id: 'EC-ML008-001',
+      presentation: 'mixed_existing_surface'
+    });
   }
 
   document.addEventListener('click', event => {
@@ -98,9 +113,22 @@
 
     if (link.classList.contains('source-link')) {
       const card = link.closest('.opportunity-card');
+      const opportunityId = card?.dataset?.opportunityId || null;
+      const opportunityName = card?.querySelector('h3')?.textContent?.trim() || null;
+      const presentation = ml008VariantForCard(card);
+
       track('OfficialListingClick', {
-        opportunity_id: card?.dataset?.opportunityId || null,
-        opportunity_name: card?.querySelector('h3')?.textContent?.trim() || null
+        opportunity_id: opportunityId,
+        opportunity_name: opportunityName
+      });
+
+      track('ML008QualifiedIntent', {
+        experiment_id: 'ML-008',
+        contract_id: 'EC-ML008-001',
+        presentation,
+        action_type: 'application_source_click',
+        opportunity_id: opportunityId,
+        opportunity_name: opportunityName
       });
       return;
     }
