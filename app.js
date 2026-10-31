@@ -38,6 +38,18 @@ function escapeHtml(value = '') {
     .replaceAll("'", '&#039;');
 }
 
+// Public feed data is treated as untrusted input even though we curate it.
+// Only ordinary HTTPS destinations are allowed into clickable opportunity links.
+function safeExternalUrl(value) {
+  if (!value) return null;
+  try {
+    const url = new URL(String(value), window.location.href);
+    return url.protocol === 'https:' ? url.href : null;
+  } catch (_) {
+    return null;
+  }
+}
+
 function daysUntil(value) {
   const target = parseLocalDate(value);
   if (!target) return null;
@@ -83,7 +95,7 @@ function renderOpportunity(item) {
   const eventDate = parseLocalDate(item.event_start_date);
   const month = eventDate ? monthFmt.format(eventDate).toUpperCase() : 'OPEN';
   const day = eventDate ? eventDate.getDate() : '•';
-  const link = item.application_url || item.official_event_url;
+  const link = safeExternalUrl(item.application_url || item.official_event_url);
   const deadline = deadlineCopy(item);
   const recurring = item.recurring ? '<span class="chip">↻ Recurring</span>' : '';
   const deadlineChip = deadline.hot ? `<span class="chip hot">${escapeHtml(deadline.text)}</span>` : '';
@@ -141,8 +153,10 @@ filterButtons.forEach(button => {
 
 async function loadFeed(path) {
   try {
-    const response = await fetch(path, { cache: 'no-store' });
+    const response = await fetch(path, { cache: 'no-store', credentials: 'same-origin' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) throw new Error('Unexpected feed content type');
     return await response.json();
   } catch (error) {
     console.warn(`Vendor Radar feed ${path} could not be loaded:`, error);
